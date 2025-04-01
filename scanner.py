@@ -11,3 +11,4 @@ while True:
     led.value(0)  # Turn LED OFF
     print("LED OFF")
     time.sleep(10)  # Wait for another 10 seconds
+    print("BARANI")
