@@ -55,7 +55,7 @@ time.sleep_ms(100)
 scan = 0
 angle = 0
 x, y, z = 0.0, 0.0, 0.0
-steps_z_height = 200
+steps_z_height = 400
 RADIANS = (math.pi / 180.0) * (360 / steps_per_rotation_for_motor)
 
 # Initial Message
