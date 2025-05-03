@@ -14,8 +14,8 @@ import sdcard
 scan_amount = 10  # Reduced for faster scanning
 file_name = "scan_1.txt"
 
-z_axis_height = 7  # in cm
-step_delay = 100  # Faster stepping
+z_axis_height = 5  # in cm
+step_delay = 300  # Faster stepping
 z_layer_height = 1  # in mm
 steps_per_rotation_for_motor = 200
 distance_to_center = 9  # in cm
