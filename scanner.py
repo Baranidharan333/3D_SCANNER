@@ -7,15 +7,12 @@ import time, math
 import network
 import os
 import socket
-import sdcard
-
-
 # Editable Variables
 scan_amount = 10  # Reduced for faster scanning
 file_name = "scan_1.txt"
 
-z_axis_height = 5  # in cm
-step_delay = 400  # Faster stepping
+z_axis_height = 1  # in cm height to uphand
+step_delay = 100  # Faster stepping
 z_layer_height = 1  # in mm
 steps_per_rotation_for_motor = 200
 distance_to_center = 9  # in cm
@@ -55,7 +52,7 @@ time.sleep_ms(100)
 scan = 0
 angle = 0
 x, y, z = 0.0, 0.0, 0.0
-steps_z_height = 150
+steps_z_height = 200
 RADIANS = (math.pi / 180.0) * (360 / steps_per_rotation_for_motor)
 
 # Initial Message
@@ -64,6 +61,20 @@ oled.text("Press", 10, 20)
 oled.text("Home", 10, 30)
 oled.text("Button...!", 10, 40)
 oled.show()
+
+def read_ip_and_status_from_file():
+    try:
+        with open('ip.txt', 'r') as f:
+            content = f.read().strip()  # Read the content
+            ip, status = content.split('\n')
+            ip = ip.replace("IP Address: ", "")
+            connection_status = int(status.split(': ')[1])
+            print(f"Read IP: {ip}, Connection Status: {connection_status}")
+            return ip, connection_status
+    except FileNotFoundError:
+        print("❌ Error: ip.txt not found!")
+        return None, 0  # Return default values if file not found
+
 
 
 # Custom map function (like Arduino map)
@@ -253,17 +264,31 @@ while True:
                 enable_z.value(0)
                 dir_z.value(1)  # Move Z up
                 step_z.value(1)
-                time.sleep(0.01)
+                time.sleep(0.001)
                 step_z.value(0)
-                time.sleep(0.01)  # Reduced Z-axis delay
+                time.sleep(0.001)  # Reduced Z-axis delay
             z += z_layer_height
         else:
             enable_z.value(1)
             enable_r.value(1)
             update_oled("Scan Complete", z, 0, 0)
+            oled.fill(0)
+            oled.text("Scan Complete", 10, 20)
+            oled.text("save in SD", 10, 30)
+            oled.text("SUCCESSFULLY", 10, 40)
+            oled.show()
+            time.sleep(2)
             scan = 0  # Stop scanning after completion
             break
-serve_files()
+ip, connection_status = read_ip_and_status_from_file()
+if connection_status ==1:
+    oled.fill(0)
+    oled.text("ip", 10, 20)
+    oled.text(f"{ip}", 10, 30)
+    oled.text("get the file", 10, 40)
+    oled.show()
+    serve_files()
+
 
 
 
