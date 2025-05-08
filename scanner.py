@@ -55,7 +55,7 @@ time.sleep_ms(100)
 scan = 0
 angle = 0
 x, y, z = 0.0, 0.0, 0.0
-steps_z_height = 300
+steps_z_height = 150
 RADIANS = (math.pi / 180.0) * (360 / steps_per_rotation_for_motor)
 
 # Initial Message
@@ -253,9 +253,9 @@ while True:
                 enable_z.value(0)
                 dir_z.value(1)  # Move Z up
                 step_z.value(1)
-                time.sleep(0.001)
+                time.sleep(0.01)
                 step_z.value(0)
-                time.sleep(0.001)  # Reduced Z-axis delay
+                time.sleep(0.01)  # Reduced Z-axis delay
             z += z_layer_height
         else:
             enable_z.value(1)
@@ -264,6 +264,7 @@ while True:
             scan = 0  # Stop scanning after completion
             break
 serve_files()
+
 
 
 
